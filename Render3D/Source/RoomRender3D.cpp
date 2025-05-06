@@ -17,7 +17,7 @@ bool RoomRender3D::init(){
     
     Size size = Director::getInstance()->getWinSize();
     _camera3D = Camera::createPerspective(30.0f, size.width / size.height, 1.0f, 1000.0f);
-    _camera3D->setPosition3D(Vec3(0.0f, _height, 100.0f));
+    _camera3D->setPosition3D(Vec3(_height, _height, _height));
     _camera3D->lookAt(Vec3(0.0f, 0.0f, 0.0f), Vec3(0.0f, 2.0f, 0.0f));
     _camera3D->setCameraFlag(CameraFlag::USER1);
     this->addChild(_camera3D);
