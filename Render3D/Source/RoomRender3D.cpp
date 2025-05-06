@@ -135,7 +135,7 @@ void RoomRender3D::initCube(){
     
     this->addChild(sp3d);
     
-    sp3d->setPosition3D(Vec3(0, 0, 0));
+    sp3d->setPosition3D(Vec3(0, 5, 0));
     sp3d->setCameraMask((unsigned short)CameraFlag::USER1);
 }
 void RoomRender3D::initBox(){
@@ -218,7 +218,7 @@ void RoomRender3D::initBox(){
 
     this->addChild(sp3d);
 
-    sp3d->setPosition3D(Vec3(0, 5, 0));
+    sp3d->setPosition3D(Vec3(0, 0, 0));
     sp3d->setCameraMask((unsigned short)CameraFlag::USER1);
 }
 
