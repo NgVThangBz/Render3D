@@ -44,12 +44,11 @@ bool RoomRender3D::init(){
     box->setCameraMask((unsigned short)CameraFlag::USER1);
     this->addChild(box);
 
-    initBox();
     initCube();
     return true;
 }
 void RoomRender3D::initCube(){
-    auto sp3d = MeshRenderer::create();
+    auto render = MeshRenderer::create();
     
     int perVertexSizeInFloat = 8; // 3 pos + 3 normal + 2 UV
     
@@ -125,103 +124,18 @@ void RoomRender3D::initCube(){
     att.vertexAttrib = shaderinfos::VertexKey::VERTEX_ATTRIB_TEX_COORD;
     attribs.push_back(att);
     
-    auto mat = MeshMaterial::createBuiltInMaterial(MeshMaterial::MaterialType::UNLIT, false);
+    auto mat = MeshMaterial::createBuiltInMaterial(MeshMaterial::MaterialType::DIFFUSE, false);
     
     auto mesh = Mesh::create(vertices, perVertexSizeInFloat, indices, attribs);
     
     
-    sp3d->addMesh(mesh);
-    sp3d->setMaterial(mat);
+    render->addMesh(mesh);
+    render->setMaterial(mat);
     
-    this->addChild(sp3d);
-    
-    sp3d->setPosition3D(Vec3(0, 5, 0));
-    sp3d->setCameraMask((unsigned short)CameraFlag::USER1);
+    render->setPosition3D(Vec3(0, 0, 0));
+    render->setCameraMask((unsigned short)CameraFlag::USER1);
+    this->addChild(render);
 }
-void RoomRender3D::initBox(){
-    auto sp3d = MeshRenderer::create();
-    
-    int perVertexSizeInFloat = 8; // 3 pos + 3 normal + 2 UV
-
-    std::vector<float> vertices = {
-        0.5f, -0.5f,  0.0f,  0, -1,  0,  1.0f, 0.5f,
-        0.25f, -0.5f,  0.433f, 0, -1,  0,  0.75f, 0.933f,
-        -0.25f, -0.5f,  0.433f, 0, -1,  0,  0.25f, 0.933f,
-        -0.5f, -0.5f,  0.0f,  0, -1,  0,  0.0f, 0.5f,
-        -0.25f, -0.5f, -0.433f, 0, -1,  0,  0.25f, 0.067f,
-        0.25f, -0.5f, -0.433f, 0, -1,  0,  0.75f, 0.067f,
-
-        0.5f,  0.5f,  0.0f,  0, 1,  0,  1.0f, 0.5f,
-        0.25f, 0.5f,  0.433f, 0, 1,  0,  0.75f, 0.933f,
-        -0.25f, 0.5f,  0.433f, 0, 1,  0,  0.25f, 0.933f,
-        -0.5f,  0.5f,  0.0f,  0, 1,  0,  0.0f, 0.5f,
-        -0.25f, 0.5f, -0.433f, 0, 1,  0,  0.25f, 0.067f,
-        0.25f, 0.5f, -0.433f, 0, 1,  0,  0.75f, 0.067f,
-    };
-    
-    IndexArray indices(backend::IndexFormat::U_SHORT);
-    std::vector<unsigned int> cubeIndices = {
-        0, 1, 2,
-        0, 2, 3,
-        0, 3, 4,
-        0, 4, 5,
-
-        6, 7, 8,
-        6, 8, 9,
-        6, 9, 10,
-        6, 10, 11,
-
-        0, 1, 7,
-        0, 7, 6,
-
-        1, 2, 8,
-        1, 8, 7,
-
-        2, 3, 9,
-        2, 9, 8,
-
-        3, 4, 10,
-        3, 10, 9,
-
-        4, 5, 11,
-        4, 11, 10,
-
-        5, 0, 6,
-        5, 6, 11
-    };
-
-    for (auto i : cubeIndices)
-        indices.emplace_back<uint16_t>(i);
-
-    std::vector<MeshVertexAttrib> attribs;
-    MeshVertexAttrib att;
-
-    att.type = backend::VertexFormat::FLOAT3;
-    att.vertexAttrib = shaderinfos::VertexKey::VERTEX_ATTRIB_POSITION;
-    attribs.push_back(att);
-
-    att.type = backend::VertexFormat::FLOAT3;
-    att.vertexAttrib = shaderinfos::VertexKey::VERTEX_ATTRIB_NORMAL;
-    attribs.push_back(att);
-
-    att.type = backend::VertexFormat::FLOAT2;
-    att.vertexAttrib = shaderinfos::VertexKey::VERTEX_ATTRIB_TEX_COORD;
-    attribs.push_back(att);
-
-    auto mat = MeshMaterial::createBuiltInMaterial(MeshMaterial::MaterialType::UNLIT, false);
-
-    auto mesh = Mesh::create(vertices, perVertexSizeInFloat, indices, attribs);
-
-    
-    sp3d->addMesh(mesh);
-    sp3d->setMaterial(mat);
-
-    this->addChild(sp3d);
-
-    sp3d->setPosition3D(Vec3(0, 0, 0));
-    sp3d->setCameraMask((unsigned short)CameraFlag::USER1);
-}
-
 void RoomRender3D::onTouchesBegan(const std::vector<Touch*>& touches, ax::Event* event)
 {
     event->stopPropagation();
